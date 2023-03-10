@@ -39,6 +39,42 @@ const helper = (function () {
         return JSDate.getFullYear() + "-" + ("" + (JSDate.getMonth() + 1)).padStart(2, "0") + "-" + ("" + JSDate.getDate()).padStart(2, "0")
     }
 
+     /* Lire la configuration */
+    function readConfig(context, _key, useTemplateValue, defaultValue)
+    {
+        useTemplateValue = useTemplateValue ?? true;
+
+        var keys = _key.split(".");
+        var value = defaultValue;
+        var read = false;
+        
+        if (configCheckNested(CONFIG, ["demarches", context].concat(keys))) {
+            value = eval("CONFIG." +  ["demarches", context].concat(keys).join("."));
+            read = true;
+        } 
+    
+        if (!read)
+        {
+            /*
+            * Dans certains context, on ne doit pas passer par ce code,
+            * car l'utilisation du modèle par défaut ne concerne que le contexte des démarches
+            */
+            if (!["GLOBAL", "templates"].includes(context)  && useTemplateValue)
+            {
+                var defaultTemplate = "DEFAULT";
+
+                /* On regarde si il existe un template à utiliser (autrement, utilisation de DEFAULT) */
+                if (configCheckNested(CONFIG, ["demarches", context, "defaultTemplate"]))
+                    defaultTemplate = CONFIG.demarches[context].defaultTemplate;
+                    
+                if (configCheckNested(CONFIG, ["templates", defaultTemplate].concat(keys)))
+                    value = eval("CONFIG." +  ["templates", defaultTemplate].concat(keys).join("."));
+                
+            }
+        }
+
+        return value;
+    }
 
     function downloadObjectAsCSV(exportObj, exportName) {
         var dataStr = "data:text/csv;charset=utf-8,\ufeff" + encodeURIComponent(exportObj);
@@ -65,6 +101,7 @@ const helper = (function () {
 
     return {
         loadScripts : loadScripts,
+        readConfig : readConfig, 
         buildQuery: buildQuery,
         downloadObjectAsCSV: downloadObjectAsCSV,
         JSDate2GTDate: JSDate2GTDate,
