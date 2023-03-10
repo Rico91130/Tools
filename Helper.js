@@ -1,7 +1,7 @@
 const helper = (function () {
 
     function loadScripts() {
-        var urls = Array.prototype.slice.call(arguments); // convert arguments to an array
+        var urls = Array.prototype.slice.call(arguments);
         var loaded = 0;
 
         return new Promise(function (resolve, reject) {
