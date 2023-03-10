@@ -15,7 +15,7 @@ const helper = (function () {
 
             for (var i = 0; i < urls.length; i++) {
                 var script = document.createElement('script');
-                script.src = urls[i];
+                script.src = urls[i] + "?" + (new Date()).getTime();
                 script.async = true;
                 script.onload = onScriptLoad;
                 script.onerror = reject;
