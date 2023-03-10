@@ -15,6 +15,8 @@ const helper = (function () {
 
             for (var i = 0; i < urls.length; i++) {
                 var script = document.createElement('script');
+                if (urls[i].indexOf("http") == -1)
+                    urls[i] = "https://github.com/Rico91130/" + urls[i];
                 script.src = urls[i] + "?" + (new Date()).getTime();
                 script.async = true;
                 script.onload = onScriptLoad;
