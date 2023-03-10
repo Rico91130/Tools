@@ -1,4 +1,4 @@
-var queuedFetch = (function () {
+const queuedFetch = (function () {
 
     var f = checkQueue.bind(this);
 
