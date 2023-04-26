@@ -60,18 +60,6 @@ const helper = (function () {
         });
     }
 
-    function toast(type, errTitle, errMsg, errDelay) {
-        vNotify[type]({
-            "text": errMsg,
-            "title": errTitle,
-            "visibleDuration": errDelay
-        });
-    }
-
-    function toastError(...args) {
-        toast.apply(null, ["error"].concat(args));
-    }
-
     /* Convertit une string date au format GT en date JS */
     function GTDate2JSDate(GTDate) {
         var [dateValues, timeValues] = GTDate.split(' ');
