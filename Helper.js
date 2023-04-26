@@ -1,5 +1,39 @@
 const helper = (function () {
 
+    var _toastLoaded = false;
+
+    function toast(type, errTitle, errMsg, errDelay) {
+        if (_toastLoaded) {
+
+            vNotify[type]({
+                "text": errMsg,
+                "title": errTitle,
+                "visibleDuration": errDelay
+            });
+
+        } else {
+
+            _toastLoaded = true;
+
+            var head = document.getElementsByTagName('head')[0];
+            var link = document.createElement('link');
+            link.rel = 'stylesheet';
+            link.type = 'text/css';
+            link.href = 'https://rico91130.github.io/Tools/dist/vanilla-notify/vanilla-notify.css';
+            link.media = 'all';
+            head.appendChild(link);
+
+            var _thisArgs = arguments;
+            helper.loadScripts("Tools/dist/vanilla-notify/vanilla-notify.js").then(() => {
+                helper.toast.apply(null, _thisArgs);
+            });
+        }
+    }
+
+    function toastError(...args) {
+        toast.apply(null, ["error"].concat(args));
+    }
+
     function loadScripts() {
         var urls = Array.prototype.slice.call(arguments);
         var loaded = 0;
@@ -24,6 +58,18 @@ const helper = (function () {
                 document.head.appendChild(script);
             }
         });
+    }
+
+    function toast(type, errTitle, errMsg, errDelay) {
+        vNotify[type]({
+            "text": errMsg,
+            "title": errTitle,
+            "visibleDuration": errDelay
+        });
+    }
+
+    function toastError(...args) {
+        toast.apply(null, ["error"].concat(args));
     }
 
     /* Convertit une string date au format GT en date JS */
@@ -63,7 +109,9 @@ const helper = (function () {
     }
 
     return {
-        loadScripts : loadScripts,
+        toast: toast,
+        toastError: toastError,
+        loadScripts: loadScripts,
         buildQuery: buildQuery,
         downloadObjectAsCSV: downloadObjectAsCSV,
         JSDate2GTDate: JSDate2GTDate,
