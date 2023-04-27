@@ -11,18 +11,18 @@
 	padding: 8px 10px;
 }
 
-.datatable-top > nav:first-child,
-.datatable-top > div:first-child,
-.datatable-bottom > nav:first-child,
-.datatable-bottom > div:first-child {
-	float: left;
-}
-
 .datatable-top > nav:last-child,
 .datatable-top > div:last-child,
 .datatable-bottom > nav:last-child,
 .datatable-bottom > div:last-child {
 	float: right;
+}
+
+.datatable-top > nav:first-child,
+.datatable-top > div:first-child,
+.datatable-bottom > nav:first-child,
+.datatable-bottom > div:first-child {
+	float: left;
 }
 
 .datatable-selector {
